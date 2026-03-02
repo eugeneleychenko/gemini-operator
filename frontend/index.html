@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gemini Operator — Universal Web Agent</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- ============================================================
+       Header
+  ============================================================ -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🤖</span>
+        <span class="logo-text">Gemini <strong>Operator</strong></span>
+      </div>
+      <div class="header-badge">
+        <span class="badge-dot"></span>
+        <span id="status-label">Ready</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       Main layout: task panel + browser view
+  ============================================================ -->
+  <main class="main">
+
+    <!-- Left panel: task input & step log -->
+    <aside class="panel panel-left">
+      <!-- Task form -->
+      <section class="card task-form" id="task-form-section">
+        <h2 class="card-title">New Task</h2>
+
+        <label class="field-label" for="task-desc">What should the agent do?</label>
+        <textarea
+          id="task-desc"
+          class="input-textarea"
+          rows="3"
+          placeholder="e.g. Go to google.com and search for the weather in San Francisco"
+        ></textarea>
+
+        <label class="field-label" for="start-url">Start URL</label>
+        <input
+          id="start-url"
+          class="input-text"
+          type="url"
+          value="https://www.google.com"
+          placeholder="https://..."
+        />
+
+        <label class="field-label" for="max-steps">Max steps</label>
+        <input
+          id="max-steps"
+          class="input-text input-small"
+          type="number"
+          value="20"
+          min="1"
+          max="100"
+        />
+
+        <button id="btn-start" class="btn btn-primary" onclick="startTask()">
+          ▶ Run Agent
+        </button>
+      </section>
+
+      <!-- Confirmation gate (hidden until needed) -->
+      <section class="card confirm-card" id="confirm-card" style="display:none;">
+        <h2 class="card-title">⚠️ Confirm Action</h2>
+        <p class="confirm-desc" id="confirm-desc">The agent wants to submit a form.</p>
+        <div class="confirm-actions">
+          <button class="btn btn-danger"  onclick="confirmAction(false)">✗ Reject</button>
+          <button class="btn btn-success" onclick="confirmAction(true)">✓ Approve</button>
+        </div>
+      </section>
+
+      <!-- Step log -->
+      <section class="card step-log-card">
+        <h2 class="card-title">Agent Log <span id="step-counter" class="step-counter"></span></h2>
+        <div id="step-log" class="step-log">
+          <div class="step-log-empty">Steps will appear here…</div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Right panel: live browser view -->
+    <section class="panel panel-right">
+      <!-- Screenshot viewer -->
+      <div class="browser-chrome">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="browser-url" id="browser-url">about:blank</div>
+        </div>
+        <div class="screenshot-wrapper">
+          <img
+            id="screenshot-img"
+            class="screenshot-img"
+            src="data:image/png;base64,iVBORw0KGgo="
+            alt="Browser screenshot"
+          />
+          <!-- Overlay canvas for bounding boxes -->
+          <canvas id="overlay-canvas" class="overlay-canvas"></canvas>
+          <!-- Idle placeholder -->
+          <div id="screenshot-placeholder" class="screenshot-placeholder">
+            <div class="placeholder-icon">🖥️</div>
+            <p>Screenshots will appear here as the agent works</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reasoning panel -->
+      <div class="card reasoning-card">
+        <h2 class="card-title">Agent Reasoning</h2>
+        <div id="reasoning-box" class="reasoning-box">
+          <span class="reasoning-empty">Waiting for agent to start…</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
