@@ -19,7 +19,7 @@ from models import BoundingBox, ScreenAnalysis, UIElement
 logger = logging.getLogger(__name__)
 
 # Gemini model to use for vision tasks
-VISION_MODEL = "gemini-2.5-flash-preview-04-17"
+VISION_MODEL = "models/gemini-2.5-flash"
 
 # System prompt for screen analysis
 ANALYSIS_SYSTEM_PROMPT = """You are a precise UI analysis assistant. Your job is to examine screenshots of web pages and identify interactive UI elements and the current page state.
